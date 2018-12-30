@@ -51,27 +51,31 @@ from keras.layers import Dense # create different layers in our an
 # Initialising the ANN
 classifier = Sequential()
 
-# Adding the input layer and the first hidden layer
+# Adding the input layer and the first hidden layer uniform makes sure the weights are close to 0, since this is the initializer
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
 
-# Adding the second hidden layer
+# Adding the second hidden layer using rectifier
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
 
-# Adding the output layer
+# Adding the output layer using sigmoid to get probabilities
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
 
-# Compiling the ANN
+# Compiling the ANN, loss function is logarithmic, binary for a binary outcome, adam is used to correct weights, typically use accuracy metric
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 # Fitting the ANN to the Training set
+#epoch is what tells how many rounds
 classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
 
 # Part 3 - Making predictions and evaluating the model
 
 # Predicting the Test set results
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
+#X_train trains the model and test is used to get predicted values
+y_pred = classifier.predict(X_test) #gives the probabilities of each customer leaving the bank
+y_pred = (y_pred > 0.5) #converting to true and false i.e. 0 and 1
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
+
+#accuracy = # correct predictions/total predictions
