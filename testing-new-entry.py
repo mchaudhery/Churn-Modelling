@@ -84,6 +84,7 @@ Number of Products: 2
 Has Credit Card: Yes
 Is Active Member: Yes
 Estimated Salary: 50000"""
+#put info in horizontal vector and not vertical vector:: use [[]]
 new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
 new_prediction = (new_prediction > 0.5)
 
